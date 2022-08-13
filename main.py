@@ -57,10 +57,10 @@ while running:
     playerX += playerX_change
     playerY += playerY_change
 
-    if playerX <= 0:
+    if playerX <= -1:
         playerX = 0
         #print("Boundaries Reached")
-    elif playerX >= 768:
+    elif playerX >= 769:
         playerX = 768
         #print("Boundaries Reached")
     elif playerY <= 0:
