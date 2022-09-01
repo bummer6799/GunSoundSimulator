@@ -1,8 +1,11 @@
 import random
 
 import pygame
+import pygame.freetype
+
 import sys
 import time
+import math
 
 pygame.init()
 
@@ -29,11 +32,18 @@ def wall(x,y):
 def player(x,y):
     screen.blit(playerImg, (x, y))
 
-def crash():
-    global wallY
-    if playerY < (wallY + 32):
-        if ((playerY > wallX and playerX < (wallX + 32)) or ((playerX + 32) > wallX) and (playerX + 32) < (wallX) + 32):
-            print("Collision Detected")
+def isCollision(wallX, wallY, playerX, playerY):
+    global distanceX
+    distanceX = wallX - playerX
+    distanceY = wallY - playerY
+    #distance = math.sqrt((math.pow(wallX - playerX, 2)) + (math.pow(wallY - playerY, 2)))
+    if distanceX < 48:
+        return True
+    elif distanceY < 24:
+        return True
+    else:
+        return False
+
 
 running = True
 
@@ -86,9 +96,21 @@ while running:
         playerY = 568
         #print("Boundaries Reached")
 
+    collision = isCollision(wallX, wallY, playerX, playerY)     #collisons
+    if collision:
+        print("Collision Detected")
+
+    font = pygame.freetype.Font("pixelfont.ttf", 20)    #font/text
+    pX = str(round(playerX, 2))
+    pY = str(round(playerY, 2))
+    text_surface1, rect1 = font.render(pX, (255, 255, 255))
+    text_surface2, rect2 = font.render(pY, (255, 255, 255))
+    screen.blit(text_surface1, (5, 5))
+    screen.blit(text_surface2, (5, 30))
+
     player(playerX, playerY)
     wall(wallX, wallY)
-    crash()
+
     pygame.display.update()
 
 
