@@ -12,20 +12,25 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 
 #player
-playerImg = pygame.image.load('Player.png')
+playerImg = pygame.image.load('player.png')
 playerX = 400
 playerY = 300
 playerX_change = 0
 playerY_change = 0
 
+#icon
 pygame.display.set_caption('GunSoundSimulator')
 icon = pygame.image.load('GunSoundSimulatorIcon.png')
 pygame.display.set_icon(icon)
 
 #walls
-wallImg = pygame.image.load('Wall.png')
+wallImg = pygame.image.load('wall.png')
 wallX = 450
 wallY = 350
+
+#sensors
+off = pygame.image.load('off.png')
+on = pygame.image.load('on.png')
 
 def wall(x,y):
     screen.blit(wallImg, (x, y))
@@ -34,12 +39,13 @@ def player(x,y):
 
 def isCollision(wallX, wallY, playerX, playerY):
     global distanceX
+    global distanceY
     distanceX = wallX - playerX
     distanceY = wallY - playerY
     #distance = math.sqrt((math.pow(wallX - playerX, 2)) + (math.pow(wallY - playerY, 2)))
-    if distanceX < 48:
+    if distanceX < 48 or distanceX < -48:
         return True
-    elif distanceY < 24:
+    elif distanceY < 24 or distanceY < -24:
         return True
     else:
         return False
@@ -97,16 +103,25 @@ while running:
         #print("Boundaries Reached")
 
     collision = isCollision(wallX, wallY, playerX, playerY)     #collisons
+    screen.blit(off, (8, 576))
     if collision:
         print("Collision Detected")
+        screen.blit(on, (8, 576))
+    #insert collision code
 
-    font = pygame.freetype.Font("pixelfont.ttf", 20)    #font/text
-    pX = str(round(playerX, 2))
+    font = pygame.freetype.Font("pixelfont.ttf", 20)    #font
+    pX = str(round(playerX, 2))     #text
     pY = str(round(playerY, 2))
     text_surface1, rect1 = font.render(pX, (255, 255, 255))
     text_surface2, rect2 = font.render(pY, (255, 255, 255))
     screen.blit(text_surface1, (5, 5))
     screen.blit(text_surface2, (5, 30))
+    dX = str(round(distanceX, 2))
+    dY = str(round(distanceY, 2))
+    distanceX_text, rect3 = font.render(dX, (127.5, 255, 255))
+    distanceY_text, rect4 = font.render(dY, (127.5, 255,255))
+    screen.blit(distanceX_text, (5, 55))
+    screen.blit(distanceY_text, (5, 80))
 
     player(playerX, playerY)
     wall(wallX, wallY)
