@@ -42,14 +42,17 @@ def isCollision(wallX, wallY, playerX, playerY):
     global distanceY
     distanceX = wallX - playerX
     distanceY = wallY - playerY
-    #distance = math.sqrt((math.pow(wallX - playerX, 2)) + (math.pow(wallY - playerY, 2)))
-    if distanceX < 48 or distanceX < -48:
-        return True
-    elif distanceY < 24 or distanceY < -24:
+    distance = math.sqrt((math.pow(wallX - playerX, 2)) + (math.pow(wallY - playerY, 2)))
+    # if distanceX < 48 or distanceX < -48:
+    #     return True
+    # elif distanceY < 24 or distanceY < -24:
+    #     return True
+    # else:
+    #     return False
+    if distance < 32:
         return True
     else:
         return False
-
 
 running = True
 
